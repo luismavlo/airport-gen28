@@ -1,21 +1,12 @@
-const express = require("express");
+import express from "express";
+import { router as passengerRouter } from './passengers/passengers.route.js'
 
 const app = express();
 
-//Rutas
-//endpoint 1: obtener todos los pasajeros
-app.get("/passengers", (req, res) => {
-  console.log(req);
-  res.send("este endpoint devolvera todos los pasajeros");
-});
+//esto me permite recibir informacion en formato json
+app.use(express.json())
 
-//endpoint 2: crear un pasajero
-
-//edpoint 3: obtener un pasajero dado su id
-
-//endpoint 4: actualizar la información de un pasajero
-
-//edpoint 5: eliminar la información de un pasajero
+app.use("/api/v1", passengerRouter)
 
 app.listen(3000, () => {
   console.log(`Server is running on port 3000 🤩`);
