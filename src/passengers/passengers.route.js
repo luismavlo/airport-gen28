@@ -1,30 +1,24 @@
-import { Router }  from 'express'
+import { Router } from "express";
 
-import { 
+import {
   findAllPassengers,
   createPassenger,
   findOnePassenger,
   updatePassenger,
-  deletePassenger
-} from './passengers.controller.js'
+  deletePassenger,
+} from "./passengers.controller.js";
 
 export const router = Router();
 
-//init features
-//Rutas
-//endpoint 1: obtener todos los pasajeros
-router.get("/passengers", findAllPassengers);
+router
+  .route("/passengers")
+  .get(findAllPassengers)
+  .post(createPassenger);
 
-//endpoint 2: crear un pasajero
-router.post("/passengers", createPassenger)
+router
+  .route("/passengers/:id")
+  .get(findOnePassenger)
+  .patch(updatePassenger)
+  .delete(deletePassenger)
 
-//edpoint 3: obtener un pasajero dado su id
-router.get("/passengers/:id", findOnePassenger)
-
-//endpoint 4: actualizar la información de un pasajero
-router.patch("/passengers/:id", updatePassenger)
-
-//edpoint 5: eliminar la información de un pasajero
-router.delete("/passengers/:id", deletePassenger)
-//end features
 
