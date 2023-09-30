@@ -10,7 +10,6 @@ const citySchema = z.object({
 })
 
 export const validateCity = (data) => {
-
   const result = citySchema.safeParse(data)
 
   const { 
@@ -24,4 +23,21 @@ export const validateCity = (data) => {
     errorMessages,
     cityData
   }
+}
+
+export const validatePartialCity = (data) => {
+  const result = citySchema.partial().safeParse(data)
+
+  const {
+    hasError,
+    errorMessages,
+    data: dataCity,
+  } = extractValidationData(result);
+
+  return {
+    hasError,
+    errorMessages,
+    dataCity,
+  }
+
 }

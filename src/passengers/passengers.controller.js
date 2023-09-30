@@ -73,7 +73,7 @@ export const updatePassenger = async(req, res) => {
     }
 
     //4. en caso de que exista, se procede a actualizar el pasajero
-    const updatedPassenger = await passengerService.updatePassenger(passenger, req.body)
+    const updatedPassenger = await passengerService.updatePassenger(passenger, passengerData)
     //5. retornamos el pasajero actualizado.
     return res.json(updatedPassenger)
   } catch (error) {
