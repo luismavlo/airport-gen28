@@ -27,7 +27,7 @@ export const findOnePassenger = catchAsync(async(req, res, next) => {
     const { id } = req.params;
 
     const passenger = await passengerService.findOnePassenger(id)
-   
+
     if(!passenger){
       return next(new AppError(`Passenger with id: ${id} not found`, 404))
     }

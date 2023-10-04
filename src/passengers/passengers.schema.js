@@ -3,7 +3,7 @@ import { extractValidationData } from '../common/utils/extractErrorData.js';
 
 export const passengerSchema = z.object({
   nroPassport: z.string().min(8).max(10),
-  name: z.string().min(2).max(999),
+  name: z.string().min(2).max(99),
   surname: z.string().min(2).max(100),
   birthdate: z.string({
     invalid_type_error: "Bithdate must be a correct format!",
