@@ -24,6 +24,8 @@ export class PassengerService {
   }
 
   async updatePassenger(passenger, data){
+
+
     return await passenger.update(data)
   }
 
