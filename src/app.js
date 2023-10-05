@@ -11,7 +11,7 @@ const app = express();
 const ACCEPTED_ORIGINS = ['http://localhost:8080', 'http://localhost:4200']
 
 app.use(express.json())
-//TODO: Refactorizar
+
 if(envs.NODE_ENV === 'development'){
   enableMorgan(app)
 }
@@ -22,7 +22,6 @@ app.use("/api/v1", router)
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
 })
-
 
 app.use(globalErrorHandler)
 

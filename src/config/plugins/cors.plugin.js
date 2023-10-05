@@ -8,7 +8,7 @@ export const enableCors = (app, acceptedOrigins) => {
       //en caso de que el servidor que hace la peticion
       //se incluye en los origines que acepta mi servidor
       //entonces se permite
-      if(acceptedOrigins.include(origin)){
+      if(acceptedOrigins.includes(origin)){
         return callback(null, true)
       }
       //en caso de que el origen de donde se hace la peticiion
