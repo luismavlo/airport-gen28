@@ -33,7 +33,7 @@ export const validateRegister = data => {
 }
 
 export const validateLogin = data => {
-  const result = registerSchema.safeParse(data)
+  const result = loginUserSchema.safeParse(data)
 
   const {
     hasError,

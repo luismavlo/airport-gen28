@@ -1,7 +1,5 @@
 import cors from 'cors';
 
-undefined
-
 export const enableCors = (app, acceptedOrigins) => {
   app.use(cors({
     origin: (origin, callback) => {

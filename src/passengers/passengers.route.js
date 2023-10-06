@@ -7,8 +7,11 @@ import {
   updatePassenger,
   deletePassenger,
 } from "./passengers.controller.js";
+import { protect } from "../auth/auth.middleware.js";
 
 export const router = Router();
+
+// router.use(protect)
 
 router
   .route("/")

@@ -8,9 +8,11 @@ import {
 } from './city.controller.js'
 
 import { validateExistCity } from './city.middleware.js'
+import { protect } from '../auth/auth.middleware.js';
 
 export const router = Router()
 
+// router.use(protect)
 
 router.route("/")
   .get(findAllCities)
