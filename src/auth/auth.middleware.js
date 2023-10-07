@@ -69,3 +69,27 @@ export const restrictTo = (...roles) => {
     next();
   }
 }
+
+export const protectAccountOwner = ( req, res, next) => {
+  const { user, sessionUser } = req;
+
+  if( user.id !== sessionUser.id ){
+    return next(new AppError('You do not own this account', 401))
+  }
+
+  next();
+
+}
+
+export const validExistUser = catchAsync(async(req,res,next) => {
+  const { id } = req.params;
+
+  const user = await authService.findOneUserById(id)
+
+  if(!user){
+    return next(new AppError('User not found', 404))
+  }
+
+  req.user = user;
+  next()
+})

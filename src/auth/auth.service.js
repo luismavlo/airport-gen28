@@ -28,4 +28,8 @@ export class AuthService {
     return await user.update(data)
   }
 
+  async deleteUser(user){
+    return await user.update({ status: false })
+  }
+
 }

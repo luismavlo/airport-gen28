@@ -108,3 +108,11 @@ export const changePassword = catchAsync(async(req, res, next) => {
     message: 'The user password was updated successfully'
   })
 })
+
+export const deleteAccount = catchAsync(async(req, res, next) => {
+  const { user } = req;
+  
+  await authService.deleteUser(user)
+
+  res.status(204).json(null)
+})
