@@ -1,15 +1,33 @@
 
+import { CityService } from '../city/city.service.js';
+import { envs } from '../config/enviroments/enviroments.js';
+import { httpClient } from '../config/plugins/http-client.plugin.js';
 import { AppError, catchAsync } from '../errors/index.js';
 import { validateFlight, validatePartialFlight } from './flight.schema.js';
 import { FlightService } from './flight.service.js';
 
 const flightService = new FlightService();
+const cityService = new CityService()
 
 export const findAllFlights = catchAsync(async (req, res, next) => {
   const flights = await flightService.findAll();
 
   return res.status(200).json(flights);
 });
+
+export const findOneFlights = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const { status } = req.query;
+
+  const flight = await flightService.findOne(id, status)
+
+  if (!flight) {
+    return next(new AppError(`flight with id: ${id} not found!`, 400));
+  }
+
+  return res.status(200).json(flight);
+
+})
 
 export const createFlights = catchAsync(async (req, res, next) => {
   const { hasError, errorMessages, flightData } = validateFlight(req.body);
@@ -54,13 +72,54 @@ export const updateFlights = catchAsync(async (req, res, next) => {
 export const deleteFlights = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
+  //TODO: no se deberia poder eliminar un vuelo pendiente, si ese vuelo tiene ticketes vendidos
+
   const flight = await flightService.findOne(id, 'pending');
 
   if (!flight) {
     return next(new AppError(`can't find flight with id: ${id}`));
-  }
+  }  
 
   await flightService.delete(flight);
 
   return res.status(204).json(null);
 });
+
+export const approveFlight = catchAsync(async(req, res, next) => {
+  const { id } = req.params;
+
+  const flight = await flightService.findOne(id, 'pending');
+
+  if(!flight){
+    return next(new AppError(`flight with id: ${id} not found!`, 404))
+  }
+
+  const originCity = await cityService.findOneCity(flight.originId);
+
+  if (!originCity){
+    return next(new AppError('city of origin does not exist'));
+  }
+
+  const destinationCity = await cityService.findOneCity(flight.destinationId)
+
+  if(!destinationCity){
+    return next(new AppError("city of destiny doesn't exists"));
+  }
+
+  const weatherConditions = await httpClient.get(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${originCity.lat}&lon=${originCity.long}&appid=${envs.API_KEY_WEATHERMAP}`
+  )
+
+  if(weatherConditions.weather[0].main === 'Rain'){
+    return next(
+      new AppError('weather conditions do not meet the requeriments for tokeoff', 400)
+    )
+  }
+
+  const updatedFlight = await flightService.update(flight, {
+    status: 'inProgress',
+    checkIn: new Date()
+  })
+
+  return res.status(200).json(updatedFlight)
+})

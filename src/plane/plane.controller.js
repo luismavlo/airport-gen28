@@ -38,8 +38,6 @@ export const findOnePlane = catchAsync(async (req, res, next) => {
 });
 
 export const updatePlane = catchAsync(async (req, res, next) => {
-  console.log(req.body);
-
   const { hasError, errorMessages, planeData } = validatePartialPlane(req.body);
 
   if (hasError) {

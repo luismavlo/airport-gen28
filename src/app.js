@@ -13,7 +13,7 @@ import { setParameterPoluttion } from "./config/plugins/parameter-pollution.plug
 
 const app = express();
 const ACCEPTED_ORIGINS = ['http://localhost:8080', 'http://localhost:4200']
-const rateLimit = limitRequest(3, 60, 'Too many request from this IP, please try again in an hour!')
+const rateLimit = limitRequest(10000, 60, 'Too many request from this IP, please try again in an hour!')
 const helmet = setSecurityHeaders();
 const sanitizater = sanitizaterClean();
 const hpp = setParameterPoluttion();

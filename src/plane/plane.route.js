@@ -6,11 +6,9 @@ import {
   findOnePlane,
   updatePlane,
 } from './plane.controller.js';
-import { protect, restrictTo } from '../auth/auth.middleware.js';
+import { restrictTo } from '../auth/auth.middleware.js';
 
 export const router = express.Router();
-
-router.use(protect);
 
 router
   .route('/')
