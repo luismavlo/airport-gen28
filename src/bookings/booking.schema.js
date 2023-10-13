@@ -35,3 +35,19 @@ export const validateBooking = (data) => {
     bookingData
   }
 }
+
+export const validatePartialBooking = (data) => {
+  const result = bookingSchema.partial().safeParse(data);
+
+  const {
+    hasError,
+    errorMessages,
+    data: bookingData,
+  } = extractValidationData(result);
+
+  return {
+    hasError,
+    errorMessages,
+    bookingData,
+  };
+};
