@@ -38,4 +38,19 @@ export class TicketService {
       }
     })
   }
+
+  async findAllTicketsByFlightId(flightId){
+    return await Ticket.findAll({
+      attributes: ['seat_number'],
+      where: {
+        flightId: flightId,
+        status: true
+      },
+      raw: true
+    })
+  }
+
+  async multipleCreation(tickets){
+    return await Ticket.bulkCreate(tickets)
+  }
 }
