@@ -16,6 +16,6 @@ export const validRepeatSeat = (tickets) => {
 
 export const hasDuplicateSeatNumber = (dataFromBody, dataFromDb) => {
   const setOfseatNumbers = new Set( dataFromDb.map((item) => item.seat_number) )
-  
+
   return dataFromBody.some((ticket) => setOfseatNumbers.has(ticket.seatNumber))
 }

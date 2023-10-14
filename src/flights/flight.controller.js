@@ -13,7 +13,7 @@ const cityService = new CityService()
 const ticketService = new TicketService()
 
 export const findAllFlights = catchAsync(async (req, res, next) => {
-  const flights = await flightService.findAll();
+  const flights = await flightService.findAllWithAllData();
 
   return res.status(200).json(flights);
 });

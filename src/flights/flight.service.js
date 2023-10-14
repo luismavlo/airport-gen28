@@ -1,3 +1,6 @@
+import User from '../auth/user.model.js';
+import City from '../city/city.model.js';
+import Plane from '../plane/plane.model.js';
 import Flight from './flight.model.js';
 import { Op } from "sequelize";
 
@@ -32,6 +35,33 @@ export class FlightService {
         },
       },
     });
+  }
+
+  async findAllWithAllData(){
+    return await Flight.findAll({
+      where: {
+        status: {
+          [Op.notIn]: ['done', 'cancelled']
+        },
+      },
+      include: [
+        {
+          model: City,
+          as: 'destination',
+          attributes: ['name', 'country'],
+        },
+        {
+          model: City,
+          as: 'origin',
+          attributes: ['name', 'country']
+        },
+        {
+          model: Plane,
+          attributes: ['plane_number']
+        }
+      ]
+    });
+  
   }
 
   async create(flightData) {

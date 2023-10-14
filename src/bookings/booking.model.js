@@ -21,7 +21,7 @@ const Booking = sequelize.define('booking', {
   flightId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    field: 'field_id'
+    field: 'flight_id'
   },
   nroTickets: {
     type: DataTypes.INTEGER,
