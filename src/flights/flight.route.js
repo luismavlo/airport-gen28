@@ -14,16 +14,15 @@ export const router = express.Router();
 router
   .route('/')
   .get(findAllFlights)
-  .post(restrictTo('admin', 'developer'), createFlights);
+  .post(createFlights);
 
 router.patch(
   '/approve-takeoff/:id',
-  restrictTo('admin', 'developer'),
   approveFlight
 )
 
 router
   .route('/:id')
   .get(findOneFlights)
-  .patch(restrictTo('admin', 'developer'), updateFlights)
-  .delete(restrictTo('admin', 'developer'), deleteFlights);
+  .patch(updateFlights)
+  .delete(deleteFlights);
