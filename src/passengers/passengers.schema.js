@@ -11,8 +11,7 @@ export const passengerSchema = z.object({
   }),
   gender: z.enum(['male', 'female', 'prefer not to say']),
   email: z.string().email(),
-  celphone: z.string().min(5).max(25),
-  createdBy: z.number()
+  celphone: z.string().min(5).max(25)
 })
 
 export function validatePassenger(data){

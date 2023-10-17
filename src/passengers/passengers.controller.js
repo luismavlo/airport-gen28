@@ -1,3 +1,5 @@
+import { UploadFileService } from '../common/services/upload-files-cloud.service.js';
+import { generateUUID } from '../config/plugins/uuid.plugin.js';
 import { AppError, catchAsync } from '../errors/index.js'
 import { validatePartialPassenger, validatePassenger } from "./passengers.schema.js";
 import { PassengerService } from "./passengers.service.js";
@@ -18,7 +20,17 @@ export const createPassenger = catchAsync(async(req, res, next) => {
         message: errorMessages
       })
     }
+
+    const path = `passenger/${generateUUID()}-${req.file.originalname}`
     
+    const photoUrL = await UploadFileService.uploadToFirebase(
+      path,
+      req.file.buffer
+    )
+
+    passengerData.photo = photoUrL;
+    passengerData.createdBy = req.sessionUser.id;
+
     const passenger = await passengerService.createPassenger(passengerData)
     return res.status(201).json(passenger)
 })
