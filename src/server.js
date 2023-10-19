@@ -2,6 +2,8 @@ import { envs } from './config/enviroments/enviroments.js'
 import app from "./app.js"
 import { authenticate, syncUp } from './config/database/database.js'
 import { initModel } from './config/database/associations.js'
+import { Sockets } from './sockets/index.js'
+import { Server } from 'socket.io'
 
 async function main(){
   try {
@@ -15,6 +17,12 @@ async function main(){
 
 main()
 
-app.listen(envs.PORT, () => {
+const server = app.listen(envs.PORT, () => {
   console.log(`Server running on port ${envs.PORT}`)
 })
+
+const io = new Server(server, {
+  cors: '*'
+})
+
+new Sockets(io)
